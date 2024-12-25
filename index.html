@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Animal Crossing Letter Grader</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+textarea {
+  width: 80%;
+  height: 200px;
+  margin-bottom: 10px;
+}
+#score {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>Animal Crossing Letter Grader</h1>
+
+<p>Write your letter below and see how it scores!</p>
+
+<textarea id="letterInput"></textarea>
+
+<button onclick="calculateScore()">Grade Letter</button>
+
+<div id="score"></div>
+
+<script>
+// Function to fetch and parse the trigram table
+async function fetchTrigrams() {
+  const response = await fetch("trigram_table.txt"); // Fetch from local file
+  if (!response.ok) {
+    throw new Error("Failed to fetch trigram table");
+  }
+  const text = await response.text();
+  return text.trim().split(/\s*,\s*/); // Split by comma, handling potential whitespace
+}
+
+// Declare trigrams as a global variable
+let trigrams = [];
+
+// Function to check for punctuation followed by capital letter
+function checkPunctuationAndCapital(text) {
+  let score = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === '.' || text[i] === '?' || text[i] === '!') {
+      if (i + 1 < text.length && text[i + 1] === ' ') {
+        if (i + 2 < text.length && text[i + 2] === ' ') {
+            if (i + 3 < text.length && text[i+3].match(/[A-Z]/)) {
+                score += 10;
+            } else {
+                score -= 10
+            }
+        } else if (i + 2 < text.length && text[i+2].match(/[A-Z]/)) {
+            score += 10
+        } else {
+            score -= 10;
+        }
+      } else if (i + 1 < text.length && text[i+1].match(/[A-Z]/)) {
+        score += 10;
+      } else {
+        score -= 10;
+      }
+    }
+  }
+  return score;
+}
+
+// Function to check for valid trigrams (using the fetched table)
+function checkTrigrams(text) {
+  let count = 0;
+  const words = text.split(/\s+/);
+  for (const word of words) {
+    for (const trigram of trigrams) {
+      if (word.toLowerCase().startsWith(trigram)) {
+        count++;
+        break;
+      }
+    }
+  }
+  return count * 3;
+}
+
+// Function to check for repeated characters
+function checkRepeatedCharacters(text) {
+  for (let i = 0; i < text.length - 2; i++) {
+    if (text[i].match(/[a-zA-Z]/) &&
+        text[i] === text[i + 1] &&
+        text[i] === text[i + 2]) {
+      return -50;
+    }
+  }
+  return 0;
+}
+
+// Function to check space ratio
+function checkSpaceRatio(text) {
+  const spaces = (text.match(/\s/g) || []).length;
+  const nonSpaces = text.replace(/\s/g, '').length;
+
+  if (nonSpaces === 0) {
+      return -20;
+  }
+
+  const ratio = (spaces * 100) / nonSpaces;
+  return ratio < 20 ? -20 : 20;
+}
+
+// Function to check punctuation in the first 75 characters
+function checkFirst75Characters(text) {
+    const first75 = text.substring(0,75);
+    if (first75.length >= 75 && !first75.match(/[.?!]/)) {
+        return -150;
+    }
+    return 0;
+}
+
+// Function to check for spaces in 32-character groups
+function check32CharacterGroups(text) {
+  let penalty = 0;
+  for (let i = 0; i < text.length; i += 32) {
+    const group = text.substring(i, i + 32);
+    if (!group.includes(' ')) {
+      penalty -= 20;
+    }
+  }
+  return penalty;
+}
+
+// Main function to calculate the letter score
+async function calculateScore() {
+  const letter = document.getElementById("letterInput").value;
+  let score = 0;
+
+  // 1. Check for punctuation followed by capital letter
+  score += checkPunctuationAndCapital(letter);
+
+  // 2. Check if the letter ends with punctuation
+  if (letter.match(/[.?!]$/)) {
+    score += 20;
+  }
+
+  // 3. Check for trigrams (using fetched table)
+  score += checkTrigrams(letter);
+
+  // 4. Check if the first character is capitalized
+  if (letter.length > 0 && letter[0].match(/[A-Z]/)) {
+    score += 20;
+  } else if (letter.length > 0) {
+    score -= 10;
+  }
+
+  // 5. Check for repeated characters
+  score += checkRepeatedCharacters(letter);
+
+  // 6. Check space ratio
+  score += checkSpaceRatio(letter);
+
+  // 7. Check punctuation in the first 75 characters
+  score += checkFirst75Characters(letter);
+
+  // 8. Check for spaces in 32-character groups
+  score += check32CharacterGroups(letter);
+
+  // Display the score
+  document.getElementById("score").textContent = "Letter Score: " + score;
+}
+
+// Fetch the trigram table on page load
+(async () => {
+  try {
+    trigrams = await fetchTrigrams();
+    console.log("Trigrams loaded:", trigrams);
+  } catch (error) {
+    console.error(error);
+    // Handle error (e.g., display an error message to the user)
+    document.getElementById("score").textContent = "Error loading trigrams!";
+  }
+})();
+</script>
+
+</body>
+  </html>
