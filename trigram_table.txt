@@ -1,6 +1,3 @@
-====================
-trigram table for a
-====================
 abl
 abo
 abr
@@ -58,10 +55,6 @@ aut
 ave
 avo
 awa
-
-====================
-trigram table for c
-====================
 cak
 cal
 cam
@@ -106,10 +99,6 @@ cup
 cur
 cus
 cut
-
-====================
-trigram table for b
-====================
 bab
 bac
 bad
@@ -159,10 +148,6 @@ bus
 but
 buy
 by 
-
-====================
-trigram table for e
-====================
 eac
 ear
 eas
@@ -191,10 +176,6 @@ exc
 exe
 exp
 eye
-
-====================
-trigram table for d
-====================
 dad
 dai
 dam
@@ -244,10 +225,6 @@ due
 dur
 dus
 dut
-
-====================
-trigram table for g
-====================
 gai
 gam
 gar
@@ -274,10 +251,6 @@ gua
 gue
 gui
 gun
-
-====================
-trigram table for f
-====================
 fac
 fai
 fal
@@ -317,10 +290,6 @@ fru
 ful
 fun
 fut
-
-====================
-trigram table for i
-====================
 i  
 ice
 ide
@@ -340,10 +309,6 @@ is
 isl
 it 
 its
-
-====================
-trigram table for h
-====================
 hab
 had
 hai
@@ -380,10 +345,6 @@ hum
 hun
 hur
 hus
-
-====================
-trigram table for k
-====================
 kee
 kep
 key
@@ -521,10 +482,6 @@ kur
 kut
 kve
 kwn
-
-====================
-trigram table for j
-====================
 jan
 jap
 job
@@ -534,17 +491,9 @@ jul
 jum
 jun
 jus
-
-====================
-trigram table for q
-====================
 qua
 que
 qui
-
-====================
-trigram table for p
-====================
 pac
 pag
 pai
@@ -583,10 +532,6 @@ pup
 pur
 pus
 put
-
-====================
-trigram table for s
-====================
 sad
 saf
 sai
@@ -674,10 +619,6 @@ swe
 swi
 swu
 sys
-
-====================
-trigram table for r
-====================
 rac
 rad
 rai
@@ -712,10 +653,6 @@ row
 rul
 run
 rus
-
-====================
-trigram table for u
-====================
 una
 unc
 und
@@ -727,10 +664,6 @@ upo
 us 
 use
 usu
-
-====================
-trigram table for t
-====================
 tab
 tak
 tal
@@ -782,10 +715,6 @@ twi
 two
 tyi
 typ
-
-====================
-trigram table for v
-====================
 val
 var
 veg
@@ -837,10 +766,6 @@ vou
 vri
 vro
 vma
-
-====================
-trigram table for y
-====================
 yar
 yea
 yel
@@ -848,9 +773,4 @@ yen
 yes
 yet
 you
-
-====================
-trigram table for z
-====================
 zer
-
